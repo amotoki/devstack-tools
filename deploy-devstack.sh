@@ -1,6 +1,6 @@
 #!/bin/bash
 
-shopt -s xtrace
+set -o xtrace
 
 TOP_DIR=$(cd $(dirname "$0") && pwd)
 

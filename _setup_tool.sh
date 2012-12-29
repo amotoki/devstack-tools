@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat >> ~/.profile << EOF
+cat >> ~/.profile << 'EOF'
 
 export PATH=$PATH:$HOME/tool
 source $HOME/tool/id-tool.sh
