@@ -1,0 +1,19 @@
+# -*- mode: bash -*-
+
+function get_host_ip() {
+    local IP
+    local HOST_IP_IFACE=$(ip route | sed -n '/^default/{ s/.*dev \(\w\+\)\s\+.*/\1/; p; }')
+    local HOST_IPS=$(LC_ALL=C ip -f inet addr show ${HOST_IP_IFACE} | awk '/inet/ {split($2,parts,"/");  print parts[1]}')
+    for IP in $HOST_IPS; do
+        echo $IP
+    done
+}
+
+export http_proxy=http://proxygate2.nic.nec.co.jp:8080/
+export https_proxy=http://proxygate2.nic.nec.co.jp:8080/
+
+export no_proxy=127.0.0.1,127.0.0.0/8,192.168.0.0/16,172.16.0.0/12,10.0.0.0/8,.nec.co.jp
+HOST_IP=$(get_host_ip)
+if [ -n "$HOST_IP" ]; then
+    no_proxy=$HOST_IP,$no_proxy
+fi

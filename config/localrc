@@ -1,0 +1,32 @@
+# -*- mode: bash -*-
+
+CFGDIR=$HOME/tool/config
+source $CFGDIR/01-proxy
+source $CFGDIR/02-repos
+source $CFGDIR/10-local
+
+disable_service n-net
+enable_service quantum q-svc q-agt
+enable_service q-dhcp
+enable_service q-l3
+
+KEYSTONE_TOKEN_FORMAT=UUID
+#LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
+Q_PLUGIN=openvswitch
+#Q_USE_NAMESPACE=False
+
+#disable_service cinder c-sch c-api c-vol
+
+LOGDIR=$DEST/logs
+SCREEN_LOGDIR=$LOGDIR
+LOGFILE=$LOGDIR/devstack.log
+LOG_COLOR=False
+
+ADMIN_PASSWORD=nomoresecrete
+MYSQL_PASSWORD=stackdb
+RABBIT_PASSWORD=stackqueue
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+SERVICE_TOKEN=xyzpdqlazydog
+
+#OFFLINE=True
+#RECLONE=True
