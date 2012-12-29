@@ -9,16 +9,24 @@ disable_service n-net
 enable_service quantum q-svc q-agt
 enable_service q-dhcp
 enable_service q-l3
+enable_service q-meta
 
 KEYSTONE_TOKEN_FORMAT=UUID
 #LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
 Q_PLUGIN=openvswitch
+#Q_PLUGIN=linuxbridge
 #Q_USE_NAMESPACE=False
+#Q_USE_SECGROUP=True
+#Q_USE_DEBUG_COMMAND=True
+
+PRIVATE_NETWORK_NAME=net1
+PUBLIC_NETWORK_NAME=ext_net
 
 #disable_service cinder c-sch c-api c-vol
 
 LOGDIR=$DEST/logs
 SCREEN_LOGDIR=$LOGDIR
+SCREEN_HARDSTATUS="%{= rw} %H %{= wk}%-Lw%{= bw}%n%f* %t%{= wk}%+Lw %{= wk}%=%{= gk} %y/%m/%d %c "
 LOGFILE=$LOGDIR/devstack.log
 LOG_COLOR=False
 
