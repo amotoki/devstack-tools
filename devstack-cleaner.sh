@@ -16,6 +16,12 @@ for vm in $VMLIST; do
 done
 virsh list --all
 
+# Remove all nwfilters created by nova-compute
+NWFILTERS=$(virsh nwfilter-list | grep nova-instance-instance- | awk '{print $1;}')
+for nwfilter in $NWFILTERS; do
+  virsh nwfilter-undefine $nwfilter
+done
+
 # Stop running dnsmasq processes
 if is_service_enabled q-dhcp; then
     pid=$(ps aux | awk '/[d]nsmasq.+interface=(tap|ns-)/ { print $2 }')
