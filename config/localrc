@@ -26,7 +26,7 @@ PUBLIC_NETWORK_NAME=ext_net
 
 LOGDIR=$DEST/logs
 SCREEN_LOGDIR=$LOGDIR
-SCREEN_HARDSTATUS="%{= rw} %H %{= wk}%-Lw%{= bw}%n%f* %t%{= wk}%+Lw %{= wk}%=%{= gk} %y/%m/%d %c "
+SCREEN_HARDSTATUS="%{= rw} %H %{= wk} %L=%-w%{= bw}%30L> %n%f %t*%{= wk}%+Lw%-17< %-=%{= gk} %y/%m    /%d %c"
 LOGFILE=$LOGDIR/devstack.log
 LOG_COLOR=False
 
