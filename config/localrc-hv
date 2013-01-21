@@ -1,19 +1,54 @@
 # -*- mode: bash -*-
 
+#-----------------------------
+# Common congigurations
+#-----------------------------
+
+CFGDIR=$HOME/tool/config
+source $CFGDIR/01-proxy
+source $CFGDIR/02-repos
+source $CFGDIR/10-local
+
+USE_QUANTUM=True
+
 CC_HOST=192.168.122.101
 MYSQL_HOST=${CC_HOST}
 SERVICE_HOST=${CC_HOST}
 RABBIT_HOST=${CC_HOST}
 Q_HOST=${CC_HOST}
 
-ENABLED_SERVICES=n-cpu,rabbit,q-agt
-
-#LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
-Q_PLUGIN=openvswitch
-#Q_USE_NAMESPACE=False
-
+ENABLED_SERVICES=n-cpu,rabbit
 #disable_service cinder c-sch c-api c-vol
 
+#-----------------------------
+# Quantum
+#-----------------------------
+if [[ "$USE_QUANTUM" == "True" ]]; then
+  enable_service q-agt
+  #LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
+  #NOVA_VIF_DRIVER=nova.virt.libvirt.vif.LibvirtOpenVswitchDriver
+  Q_PLUGIN=openvswitch
+  #Q_PLUGIN=linuxbridge
+  #Q_USE_NAMESPACE=False
+  #Q_USE_SECGROUP=True
+  #Q_USE_DEBUG_COMMAND=True
+
+  #Q_PLUGIN=nec-openflow
+  #enable_service trema
+#-----------------------------
+# Nova Network
+#-----------------------------
+else
+  :
+  # When multi node two NIC machine is recommended since FLAT_INTERFACE
+  # is added to a bridge and IP address is moved to the bridge.
+  # By using another NIC we can avoid unnecessary troubles.
+  #FLAT_INTERFACE=eth1
+fi
+
+#-----------------------------
+# Devstack configurations
+#-----------------------------
 LOGDIR=$DEST/logs
 SCREEN_LOGDIR=$LOGDIR
 SCREEN_HARDSTATUS="%{= rw} %H %{= wk} %L=%-w%{= bw}%30L> %n%f %t*%{= wk}%+Lw%-17< %-=%{= gk} %y/%m    /%d %c"
@@ -28,8 +63,3 @@ SERVICE_TOKEN=xyzpdqlazydog
 
 #OFFLINE=True
 #RECLONE=True
-
-CFGDIR=$HOME/tool/config
-source $CFGDIR/01-proxy
-source $CFGDIR/02-repos
-source $CFGDIR/10-local

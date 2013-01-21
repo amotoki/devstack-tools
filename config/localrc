@@ -1,29 +1,59 @@
 # -*- mode: bash -*-
 
+#-----------------------------
+# Common congigurations
+#-----------------------------
+
 CFGDIR=$HOME/tool/config
 source $CFGDIR/01-proxy
 source $CFGDIR/02-repos
 source $CFGDIR/10-local
 
-disable_service n-net
-enable_service quantum q-svc q-agt
-enable_service q-dhcp
-enable_service q-l3
-enable_service q-meta
+USE_QUANTUM=True
+
+#disable_service cinder c-sch c-api c-vol
+#disable_service tempest
 
 KEYSTONE_TOKEN_FORMAT=UUID
-#LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
-Q_PLUGIN=openvswitch
-#Q_PLUGIN=linuxbridge
-#Q_USE_NAMESPACE=False
-#Q_USE_SECGROUP=True
-#Q_USE_DEBUG_COMMAND=True
-
 PRIVATE_NETWORK_NAME=net1
 PUBLIC_NETWORK_NAME=ext_net
 
-#disable_service cinder c-sch c-api c-vol
+#-----------------------------
+# Quantum
+#-----------------------------
+# If you use nova-network comment out the following lines.
+if [[ "$USE_QUANTUM" == "True" ]]; then
+  disable_service n-net
+  enable_service quantum q-svc q-agt
+  enable_service q-dhcp
+  enable_service q-l3
+  enable_service q-meta
 
+  #LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
+  #NOVA_VIF_DRIVER=nova.virt.libvirt.vif.LibvirtOpenVswitchDriver
+  #Q_PLUGIN=openvswitch
+  #Q_PLUGIN=linuxbridge
+  #Q_USE_NAMESPACE=False
+  #Q_USE_SECGROUP=True
+  #Q_USE_DEBUG_COMMAND=True
+
+  #Q_PLUGIN=nec-openflow
+  #enable_service trema
+#-----------------------------
+# nova-network
+#-----------------------------
+else
+  :
+  # When multi node two NIC machine is recommended since FLAT_INTERFACE
+  # is added to a bridge and IP address is moved to the bridge.
+  # By using another NIC we can avoid unnecessary troubles.
+  #FLAT_INTERFACE=eth1
+  #PUBLIC_INTERFACE=eth0
+fi
+
+#-----------------------------
+# Devstack configurations
+#-----------------------------
 LOGDIR=$DEST/logs
 SCREEN_LOGDIR=$LOGDIR
 SCREEN_HARDSTATUS="%{= rw} %H %{= wk} %L=%-w%{= bw}%30L> %n%f %t*%{= wk}%+Lw%-17< %-=%{= gk} %y/%m    /%d %c"
