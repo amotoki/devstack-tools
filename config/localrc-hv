@@ -37,6 +37,7 @@ if [[ "$USE_QUANTUM" == "True" ]]; then
   GRE_REMOTE_IPS=10.56.51.252:10.56.51.210:10.56.51.153
   #GRE_LOCAL_IP=10.56.51.252
   #OVS_INTERFACE=eth1
+  OFC_OFP_HOST=${CC_HOST}
 #-----------------------------
 # Nova Network
 #-----------------------------
