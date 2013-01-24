@@ -11,7 +11,7 @@ source $CFGDIR/10-local
 
 USE_QUANTUM=True
 
-CC_HOST=192.168.122.101
+CC_HOST=10.56.51.252
 MYSQL_HOST=${CC_HOST}
 SERVICE_HOST=${CC_HOST}
 RABBIT_HOST=${CC_HOST}
@@ -27,14 +27,16 @@ if [[ "$USE_QUANTUM" == "True" ]]; then
   enable_service q-agt
   #LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
   #NOVA_VIF_DRIVER=nova.virt.libvirt.vif.LibvirtOpenVswitchDriver
-  Q_PLUGIN=openvswitch
+  #Q_PLUGIN=openvswitch
   #Q_PLUGIN=linuxbridge
   #Q_USE_NAMESPACE=False
   #Q_USE_SECGROUP=True
   #Q_USE_DEBUG_COMMAND=True
 
-  #Q_PLUGIN=nec-openflow
-  #enable_service trema
+  Q_PLUGIN=nec-openflow
+  GRE_REMOTE_IPS=10.56.51.252:10.56.51.210:10.56.51.153
+  #GRE_LOCAL_IP=10.56.51.252
+  #OVS_INTERFACE=eth1
 #-----------------------------
 # Nova Network
 #-----------------------------
