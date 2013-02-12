@@ -28,6 +28,10 @@ if is_service_enabled q-dhcp; then
     [ ! -z "$pid" ] && sudo kill -9 $pid
 fi
 
+# Stop metadata agent process
+pids=$(ps auxw | grep quantum-ns-metadata-proxy | grep -v grep | awk '{print $2;}')
+sudo kill $pids
+
 # Remove Hybrid ports
 NETDEVS=$(ip -o link | cut -d : -f 2 | awk '{print $1;}' | grep ^qvo)
 for p in $NETDEVS; do
