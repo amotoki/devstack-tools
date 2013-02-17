@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TREMA_APPS_DIR=/opt/stack/trema/apps
-TREMA_SS_DIR=$TREMA_SS_DIR/sliceable_switch
+TREMA_SS_DIR=$TREMA_APPS_DIR/sliceable_switch
 TREMA_TOPOLOGY_DIR=$TREMA_APPS_DIR/topology
 TREMA_TMP=/opt/stack/data/trema/trema
 
