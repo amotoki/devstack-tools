@@ -24,11 +24,13 @@ done
 
 # Stop running dnsmasq processes
 if is_service_enabled q-dhcp; then
+    ps aux | grep -E '[d]nsmasq.+interface=(tap|ns-)' | grep -v grep
     pid=$(ps aux | awk '/[d]nsmasq.+interface=(tap|ns-)/ { print $2 }')
     [ ! -z "$pid" ] && sudo kill -9 $pid
 fi
 
 # Stop metadata agent process
+ps auxw | grep quantum-ns-metadata-proxy | grep -v grep
 pids=$(ps auxw | grep quantum-ns-metadata-proxy | grep -v grep | awk '{print $2;}')
 sudo kill $pids
 
@@ -87,6 +89,9 @@ done
 # devstack sometimes fails to talk with rabbitmq without stop and start.
 sudo service rabbitmq stop
 sudo service rabbitmq start
+
+# Remove account rc files
+rm -rf $DEVSTACK_DIR/accrc
 
 echo "=============================="
 echo "Status"
