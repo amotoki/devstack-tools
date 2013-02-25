@@ -32,7 +32,7 @@ fi
 # Stop metadata agent process
 ps auxw | grep quantum-ns-metadata-proxy | grep -v grep
 pids=$(ps auxw | grep quantum-ns-metadata-proxy | grep -v grep | awk '{print $2;}')
-sudo kill $pids
+[ -n "$pids" ] && sudo kill $pids
 
 # Remove Hybrid ports
 NETDEVS=$(ip -o link | cut -d : -f 2 | awk '{print $1;}' | grep ^qvo)
@@ -87,8 +87,8 @@ for br in $LBS; do
 done
 
 # devstack sometimes fails to talk with rabbitmq without stop and start.
-sudo service rabbitmq stop
-sudo service rabbitmq start
+sudo service rabbitmq-server stop
+sudo service rabbitmq-server start
 
 # Remove account rc files
 rm -rf $DEVSTACK_DIR/accrc
