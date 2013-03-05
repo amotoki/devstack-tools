@@ -86,6 +86,15 @@ for br in $LBS; do
   echo brctl delbr $br
 done
 
+# Flush iptables chains and rules
+for table in filter nat; do
+  sudo iptables -F -t $table
+  for chain in `sudo iptables -L -v -n -t $table | grep '^Chain ' | grep references | awk '{print $2;}'`; do
+    sudo iptables -t $table -X $chain
+    echo "Delete iptable chain: $table:$chain"
+  done
+done
+
 # devstack sometimes fails to talk with rabbitmq without stop and start.
 sudo service rabbitmq-server stop
 sudo service rabbitmq-server start
