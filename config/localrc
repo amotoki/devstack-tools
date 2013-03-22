@@ -37,7 +37,7 @@ if [[ "$USE_QUANTUM" == "True" ]]; then
   #Q_USE_SECGROUP=True
   #Q_USE_DEBUG_COMMAND=True
 
-  Q_PLUGIN=nec-openflow
+  Q_PLUGIN=nec
   enable_service trema
   #GRE_REMOTE_IPS=10.56.51.252:10.56.51.210:10.56.51.153
   #GRE_LOCAL_IP=10.56.51.252
