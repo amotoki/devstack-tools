@@ -17,8 +17,16 @@ SERVICE_HOST=${CC_HOST}
 RABBIT_HOST=${CC_HOST}
 Q_HOST=${CC_HOST}
 
+# IP address of Management network
+HOST_IP=$(get_host_ip)
+
 ENABLED_SERVICES=n-cpu,rabbit
 #disable_service cinder c-sch c-api c-vol
+
+# VNC
+enable_service n-novnc
+VNCSERVER_PROXYCLIENT_ADDRESS=$HOST_IP
+VNCSERVER_LISTEN=$HOST_IP
 
 #-----------------------------
 # Quantum
