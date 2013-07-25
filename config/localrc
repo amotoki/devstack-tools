@@ -9,7 +9,7 @@ source $CFGDIR/01-proxy
 source $CFGDIR/02-repos
 source $CFGDIR/10-local
 
-USE_QUANTUM=True
+USE_NEUTRON=True
 
 #disable_service cinder c-sch c-api c-vol
 #disable_service tempest
@@ -19,12 +19,12 @@ PRIVATE_NETWORK_NAME=net1
 PUBLIC_NETWORK_NAME=ext_net
 
 #-----------------------------
-# Quantum
+# Neutron
 #-----------------------------
 # If you use nova-network comment out the following lines.
-if [[ "$USE_QUANTUM" == "True" ]]; then
+if [[ "$USE_NEUTRON" == "True" ]]; then
   disable_service n-net
-  enable_service quantum q-svc q-agt
+  enable_service neutron q-svc q-agt
   enable_service q-dhcp
   enable_service q-l3
   enable_service q-meta

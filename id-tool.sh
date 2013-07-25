@@ -37,7 +37,7 @@ function get_image_id {
 function get_net_id {
     local name=$1
     check_name get_net_id $name || return
-    netid=$(get_id_by_name $name quantum net-list -c id -c name)
+    netid=$(get_id_by_name $name neutron net-list -c id -c name)
     echo $netid
 }
 
@@ -53,7 +53,7 @@ function get_netns_dhcp {
 function get_netns_router {
     local name=$1
     check_name get_netns_router $name || return
-    routerid=$(get_id_by_name $name quantum router-list -c id -c name)
+    routerid=$(get_id_by_name $name neutron router-list -c id -c name)
     if [ -n "$routerid" ]; then
         echo "qrouter-$routerid"
     fi

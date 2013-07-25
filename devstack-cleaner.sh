@@ -30,8 +30,8 @@ if is_service_enabled q-dhcp; then
 fi
 
 # Stop metadata agent process
-ps auxw | grep quantum-ns-metadata-proxy | grep -v grep
-pids=$(ps auxw | grep quantum-ns-metadata-proxy | grep -v grep | awk '{print $2;}')
+ps auxw | grep neutron-ns-metadata-proxy | grep -v grep
+pids=$(ps auxw | grep neutron-ns-metadata-proxy | grep -v grep | awk '{print $2;}')
 [ -n "$pids" ] && sudo kill $pids
 
 # Remove Hybrid ports
@@ -60,9 +60,9 @@ for p in $(sudo ovs-vsctl list-ports br-ex | grep -E '^(tap|qg-)'); do
   sudo ovs-vsctl del-port br-ex $p
 done
 
-#/opt/stack/quantum/bin/quantum-netns-cleanup --verbose --force \
-#  --config-file /etc/quantum/quantum.conf \
-#  --config-file /etc/quantum/dhcp_agent.ini
+#/opt/stack/neutron/bin/neutron-netns-cleanup --verbose --force \
+#  --config-file /etc/neutron/neutron.conf \
+#  --config-file /etc/neutron/dhcp_agent.ini
 for ns in `ip netns`; do
   sudo ip netns delete $ns
 done

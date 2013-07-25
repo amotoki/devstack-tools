@@ -8,9 +8,9 @@ import os
 from pprint import pprint
 import sys
 
-from quantumclient.common import utils
-from quantumclient.v2_0 import client as qclient
-from quantumclient.quantum import v2_0 as q20
+from neutronclient.common import utils
+from neutronclient.neutron import v2_0 as q20
+from neutronclient.v2_0 import client as qclient
 
 supported_resources = ['network', 'subnet', 'port']
 

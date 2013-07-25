@@ -9,7 +9,7 @@ source $CFGDIR/01-proxy
 source $CFGDIR/02-repos
 source $CFGDIR/10-local
 
-USE_QUANTUM=True
+USE_NEUTRON=True
 
 CC_HOST=10.56.51.252
 MYSQL_HOST=${CC_HOST}
@@ -29,9 +29,9 @@ VNCSERVER_PROXYCLIENT_ADDRESS=$HOST_IP
 VNCSERVER_LISTEN=$HOST_IP
 
 #-----------------------------
-# Quantum
+# Neutron
 #-----------------------------
-if [[ "$USE_QUANTUM" == "True" ]]; then
+if [[ "$USE_NEUTRON" == "True" ]]; then
   enable_service q-agt
   #LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
   #NOVA_VIF_DRIVER=nova.virt.libvirt.vif.LibvirtOpenVswitchDriver

@@ -9,7 +9,7 @@ IMAGE_ID=$(nova image-list | grep $IMAGE_NAME | grep -vE '(kernel|ramdisk)' | aw
 
 function get_netid {
     NAME=$1
-    admin_admin quantum net-list -c id -- --name $1 | \
+    admin_admin neutron net-list -c id -- --name $1 | \
 	grep -E '([a-f0-9]+-){4}[a-f0-9]+' | \
 	awk '{print $2;}'
 }
