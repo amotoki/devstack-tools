@@ -13,10 +13,20 @@ USE_NEUTRON=True
 
 #disable_service cinder c-sch c-api c-vol
 #disable_service tempest
+#disable_service horizon
+enable_service heat h-api h-api-cfn h-api-cw h-eng
+enable_service ceilometer-acompute ceilometer-acentral ceilometer-collector ceilometer-api
 
 KEYSTONE_TOKEN_FORMAT=UUID
 PRIVATE_NETWORK_NAME=net1
 PUBLIC_NETWORK_NAME=ext_net
+
+# For VPNaaS
+#FIXED_RANGE=10.2.0.0/24
+#FIXED_NETWORK_SIZE=256
+#NETWORK_GATEWAY=10.2.0.1
+#PUBLIC_NETWORK_GATEWAY=172.24.4.232
+#Q_FLOATING_ALLOCATION_POOL=start=172.24.4.233,end=172.24.4.238
 
 #-----------------------------
 # Neutron
@@ -28,6 +38,8 @@ if [[ "$USE_NEUTRON" == "True" ]]; then
   enable_service q-dhcp
   enable_service q-l3
   enable_service q-meta
+  enable_service q-lbaas
+  #enable_service q-vpn
 
   #LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
   #NOVA_VIF_DRIVER=nova.virt.libvirt.vif.LibvirtOpenVswitchDriver
@@ -65,7 +77,7 @@ SCREEN_HARDSTATUS="%{= rw} %H %{= wk} %L=%-w%{= bw}%30L> %n%f %t*%{= wk}%+Lw%-17
 LOGFILE=$LOGDIR/devstack.log
 LOG_COLOR=False
 
-ADMIN_PASSWORD=nomoresecrete
+ADMIN_PASSWORD=pass
 MYSQL_PASSWORD=stackdb
 RABBIT_PASSWORD=stackqueue
 SERVICE_PASSWORD=$ADMIN_PASSWORD

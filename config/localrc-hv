@@ -66,7 +66,7 @@ SCREEN_HARDSTATUS="%{= rw} %H %{= wk} %L=%-w%{= bw}%30L> %n%f %t*%{= wk}%+Lw%-17
 LOGFILE=$LOGDIR/devstack.log
 LOG_COLOR=False
 
-ADMIN_PASSWORD=nomoresecrete
+ADMIN_PASSWORD=pass
 MYSQL_PASSWORD=stackdb
 RABBIT_PASSWORD=stackqueue
 SERVICE_PASSWORD=$ADMIN_PASSWORD
