@@ -14,8 +14,8 @@ USE_NEUTRON=True
 #disable_service cinder c-sch c-api c-vol
 #disable_service tempest
 #disable_service horizon
-enable_service heat h-api h-api-cfn h-api-cw h-eng
-enable_service ceilometer-acompute ceilometer-acentral ceilometer-collector ceilometer-api
+#enable_service heat h-api h-api-cfn h-api-cw h-eng
+#enable_service ceilometer-acompute ceilometer-acentral ceilometer-collector ceilometer-api
 
 KEYSTONE_TOKEN_FORMAT=UUID
 PRIVATE_NETWORK_NAME=net1
