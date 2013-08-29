@@ -12,5 +12,5 @@ if [ -d $DEVSTACK_DIR ]; then
   git pull
 else
   git clone $DEVSTACK_REPO $DEVSTACK_DIR
-  cp -iv $TOP_DIR/config/localrc $DEVSTACK_DIR
 fi
+cp -iv $TOP_DIR/config/localrc $DEVSTACK_DIR
