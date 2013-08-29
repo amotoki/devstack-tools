@@ -99,6 +99,10 @@ done
 sudo service rabbitmq-server stop
 sudo service rabbitmq-server start
 
+# Remove VM images
+rm -vrf /opt/stack/data/glance/*
+rm -vrf /opt/stack/data/nova/*
+
 # Remove account rc files
 rm -rf $DEVSTACK_DIR/accrc
 
