@@ -58,6 +58,7 @@ if [[ "$USE_NEUTRON" == "True" ]]; then
   #GRE_LOCAL_IP=10.56.51.252
   #OVS_INTERFACE=eth1
   #OFC_DRIVER=trema
+  #OFC_DRIVER=neutron.tests.unit.nec.stub_ofc_driver.StubOFCDriver
   #OFC_OFP_HOST=127.0.0.1
 #-----------------------------
 # nova-network
