@@ -11,6 +11,9 @@ source $CFGDIR/10-local
 
 USE_NEUTRON=True
 
+#disable_service mysql
+#enable_service postgresql
+
 #disable_service cinder c-sch c-api c-vol
 #disable_service tempest
 #disable_service horizon
