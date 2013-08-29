@@ -5,15 +5,12 @@ set -o xtrace
 TOP_DIR=$(cd $(dirname "$0") && pwd)
 
 DEVSTACK_DIR=$HOME/devstack
-DEVSTACK_REPO=git://orion.spf.cl.nec.co.jp/git/openstack/devstack.git
+DEVSTACK_REPO=https://github.com/openstack-dev/devstack.git
 
-case "$1" in
-"folsom")
-  git clone -b stable/folsom $DEVSTACK_REPO $DEVSTACK_DIR
-  cp -iv $TOP_DIR/config/localrc $DEVSTACK_DIR
-  ;;
-""|"trunk")
+if [ -d $DEVSTACK_DIR ]; then
+  cd $DEVSTACK_DIR
+  git pull
+else
   git clone $DEVSTACK_REPO $DEVSTACK_DIR
   cp -iv $TOP_DIR/config/localrc $DEVSTACK_DIR
-  ;;
-esac
+fi
