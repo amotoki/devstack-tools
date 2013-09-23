@@ -34,6 +34,25 @@ ps auxw | grep neutron-ns-metadata-proxy | grep -v grep
 pids=$(ps auxw | grep neutron-ns-metadata-proxy | grep -v grep | awk '{print $2;}')
 [ -n "$pids" ] && sudo kill $pids
 
+# Stop ipsec process
+ps auxw | grep /ipsec/ | grep -v grep
+pids=$(ps auxw | grep _plutorun | grep -v grep | awk '{print $2;}')
+if [ -n "$pids" ]; then
+    sudo pstree -p -g $pids
+    sudo killall --process-group _plutorun
+fi
+echo
+ps auxw | grep /ipsec/ | grep -v grep
+pids=$(ps auxw | grep /ipsec/ | grep -v grep | awk '{print $2;}')
+[ -n "$pids" ] && sudo kill $pids
+echo
+ps auxw | grep /ipsec/ | grep -v grep
+
+# Stop haproxy process
+ps auxw | grep haproxy | grep -v grep
+pids=$(ps auxw | grep haproxy | grep -v grep | awk '{print $2;}')
+[ -n "$pids" ] && sudo kill $pids
+
 # Remove Hybrid ports
 NETDEVS=$(ip -o link | cut -d : -f 2 | awk '{print $1;}' | grep ^qvo)
 for p in $NETDEVS; do
