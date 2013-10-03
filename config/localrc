@@ -50,7 +50,7 @@ if [[ "$USE_NEUTRON" == "True" ]]; then
   #Q_PLUGIN=linuxbridge
   #Q_USE_NAMESPACE=False
   #Q_USE_SECGROUP=True
-  #Q_USE_DEBUG_COMMAND=True
+  Q_USE_DEBUG_COMMAND=True
 
   Q_PLUGIN=nec
   enable_service trema
