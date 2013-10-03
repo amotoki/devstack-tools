@@ -136,3 +136,14 @@ echo '---------'
 ip link
 echo '---------'
 ip netns
+
+echo "Compressing devstack logs..."
+SYMLINKFILES=/tmp/symlinked-log.$$
+find /opt/stack/logs -type l | xargs ls -l | sed -e 's/^.* -> //' > $SYMLINKFILES
+TARGETLOGS=$(find /opt/stack/logs -type f | grep -v -f $SYMLINKFILES | grep -v '.gz$')
+if [ -n "$TARGETLOGS" ]; then
+    gzip --verbose $TARGETLOGS
+fi
+
+echo
+df -h
