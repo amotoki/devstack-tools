@@ -16,6 +16,16 @@ for vm in $VMLIST; do
 done
 virsh list --all
 
+# nova-api
+pid=$(ps auxw | grep nova-api | grep -v grep | sort -k 9 | head -1 | awk '{print $2;}')
+if [ -n "$pid" ]; then
+    kill $pid
+fi
+pids=$(ps auxw | grep -v grep | grep nova-api | awk '{print $2;}')
+if [ -n "$pids" ]; then
+    kill $pids
+fi
+
 # Remove all nwfilters created by nova-compute
 NWFILTERS=$(virsh nwfilter-list | grep nova-instance-instance- | awk '{print $1;}')
 for nwfilter in $NWFILTERS; do
