@@ -41,9 +41,9 @@ if [[ "$USE_NEUTRON" == "True" ]]; then
   enable_service q-dhcp
   enable_service q-l3
   enable_service q-meta
-  #enable_service q-lbaas
-  #enable_service q-fwaas
-  #enable_service q-vpn
+  enable_service q-lbaas
+  enable_service q-fwaas
+  enable_service q-vpn
 
   #LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
   #NOVA_VIF_DRIVER=nova.virt.libvirt.vif.LibvirtOpenVswitchDriver
