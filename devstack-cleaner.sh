@@ -45,18 +45,13 @@ pids=$(ps auxw | grep neutron-ns-metadata-proxy | grep -v grep | awk '{print $2;
 [ -n "$pids" ] && sudo kill $pids
 
 # Stop ipsec process
-ps auxw | grep /ipsec/ | grep -v grep
-pids=$(ps auxw | grep _plutorun | grep -v grep | awk '{print $2;}')
-if [ -n "$pids" ]; then
-    sudo pstree -p -g $pids
-    sudo killall --process-group _plutorun
+ipsec_data_dir=$DATA_DIR/neutron/ipsec
+if [ -d $ipsec_data_dir ]; then
+    pids=$(find $ipsec_data_dir -name 'pluto.pid' -exec cat {} \;)
 fi
-echo
-ps auxw | grep /ipsec/ | grep -v grep
-pids=$(ps auxw | grep /ipsec/ | grep -v grep | awk '{print $2;}')
-[ -n "$pids" ] && sudo kill $pids
-echo
-ps auxw | grep /ipsec/ | grep -v grep
+if [ -n "$pids" ]; then
+    sudo kill $pids
+fi
 
 # Stop haproxy process
 ps auxw | grep haproxy | grep -v grep
