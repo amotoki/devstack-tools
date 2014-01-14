@@ -17,10 +17,19 @@ unset http_proxy
 unset https_proxy
 
 cd $DEST/tempest
-#echo "Running tempest smoke tests"
-#bash tools/pretty_tox_serial.sh '(?!.*\[.*\bslow\b.*\])((smoke)|(^tempest\.scenario)) {posargs}'
-echo "Running API tests"
-#bash tools/pretty_tox_serial.sh 'tempest.api {posargs}'
-bash tools/pretty_tox_serial.sh 'tempest.api.network {posargs}'
+if [ "$DEVSTACK_GATE_SMOKE_SERIAL" -eq "1" ]; then
+  echo "Running tempest smoke tests"
+  bash tools/pretty_tox_serial.sh '(?!.*\[.*\bslow\b.*\])((smoke)|(^tempest\.scenario)) {posargs}'
+  res=$?
+elif [ "$DEVSTACK_GATE_NETWORK_API" -eq "1" ]; then
+  echo "Running API tests"
+  bash tools/pretty_tox_serial.sh 'tempest.api.network {posargs}'
+  res=$?
+elif [ "$DEVSTACK_GATE_TEMPEST_SCENARIO" -eq "1" ]; then
+  echo "Running scenario tests"
+  bash tools/pretty_tox_serial.sh 'tempest.scenario {posargs}'
+  res=$?
+fi
 
-res=$?
+[[ $res -eq 0 ]]
+exit $?
