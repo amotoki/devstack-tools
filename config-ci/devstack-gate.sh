@@ -20,6 +20,7 @@ cd $DEST/tempest
 #echo "Running tempest smoke tests"
 #bash tools/pretty_tox_serial.sh '(?!.*\[.*\bslow\b.*\])((smoke)|(^tempest\.scenario)) {posargs}'
 echo "Running API tests"
-bash tools/pretty_tox_serial.sh 'tempest.api {posargs}'
+#bash tools/pretty_tox_serial.sh 'tempest.api {posargs}'
+bash tools/pretty_tox_serial.sh 'tempest.api.network {posargs}'
 
 res=$?
