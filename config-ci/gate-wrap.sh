@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/bash -ex
 
 CACHE_URL=http://10.56.45.207/openstack
 export PROXY=http://proxygate2.nic.nec.co.jp:8080
