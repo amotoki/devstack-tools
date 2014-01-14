@@ -51,8 +51,10 @@ setup_devstack() {
   cat $DEST/devstack/localrc
 }
 
-prepare_gitrepo
-prepare_pipcache
+if [ ! -n "$SKIP" ]; then
+  prepare_gitrepo
+  prepare_pipcache
+fi
 fetch_target_patchset
 setup_devstack
 
