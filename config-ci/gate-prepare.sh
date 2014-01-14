@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/sh -ex
 
 CACHE_URL=http://10.56.45.207/openstack
+PROXY=http://proxygate2.nic.nec.co.jp:8080
 
 WORKDIR=`pwd`
 
@@ -12,12 +13,12 @@ sudo chown -R `whoami`: $DEST
 cd $DEST
 http_proxy= wget -O $GITTAR $CACHE_URL/$GITTAR
 tar xzf $GITTAR -C $DEST
+rm -f $GITTAR
 for d in *; do
   cd $d
-  git pull
+  https_proxy=$PROXY git pull
   cd ..
 done
-rm -f $GITTAR
 
 cd $WORKDIR
 PIPTAR=pip.cache.tgz
