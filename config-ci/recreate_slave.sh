@@ -43,7 +43,7 @@ if [ ! -f $CLIJAR ]; then
 fi
 
 jenkins_cli get-node $NAME
-jenkins_cli offline-node $NAME
+jenkins_cli offline-node $NAME -m "Recreating..."
 jenkins_cli disconnect-node $NAME
 
 host_exec virsh list
