@@ -16,7 +16,7 @@ prepare_gitrepo() {
   sudo mkdir -p $DEST
   sudo chown -R `whoami`: $DEST
   cd $DEST
-  http_proxy= curl -O $CACHE_URL/$GITTAR
+  http_proxy= wget --no-verbose -O $GITTAR $CACHE_URL/$GITTAR
   tar xzf $GITTAR -C $DEST
   rm -f $GITTAR
   for d in *; do
@@ -29,7 +29,7 @@ prepare_gitrepo() {
 prepare_pipcache() {
   cd $WORKSPACE
   PIPTAR=pip.cache.tgz
-  http_proxy= curl -O $CACHE_URL/$PIPTAR
+  http_proxy= wget --no-verbose -O $PIPTAR $CACHE_URL/$PIPTAR
   tar xzf $PIPTAR
   sudo mkdir -p /var/cache/pip
   sudo mv pip.cache/* /var/cache/pip
