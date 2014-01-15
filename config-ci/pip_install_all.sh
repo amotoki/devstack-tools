@@ -19,7 +19,6 @@ pip_install_multi() {
     for mod in "$@"; do
         grep ^$mod $REQUIREMENTS
     done | sort | uniq >$req
-    cat $req
     pip_install --upgrade -r $req
     cat $req >>$TMPFILE
     rm -f $req
@@ -41,7 +40,6 @@ pip_install_others() {
         last=`expr $i + 19`
         sed -n "$i,${last}p" $remfile > $workfile
         echo "* Installing ${i}-${last}..."
-	cat $workfile
         pip_install --upgrade -r $workfile
 	echo
     done
