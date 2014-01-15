@@ -9,3 +9,12 @@ git_clone_or_pull() {
         git clone $url
     fi
 }
+
+export JENKINS_URL=http://ostack10.svp.cl.nec.co.jp/ci/
+JAVA=/usr/bin/java
+CLIJAR=${WORKSPACE:-$(pwd)}/jenkins-cli.jar
+
+jenkins_cli() {
+  [ -f $CLIJAR ] || wget -O $CLIJAR $JENKINS_URL/jnlpJars/$(basename $CLIJAR)
+  $JAVA -jar $CLIJAR "$@"
+}
