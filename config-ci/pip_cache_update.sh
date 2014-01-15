@@ -1,10 +1,10 @@
-#!/bin/sh -ex
+#!/bin/bash -ex
 
 WORKDIR=$HOME
 VENV=venv
 PIP_CACHE_TARBALL=/var/www/openstack/pip.cache.tgz
 
-TOP_DIR=`dirname $0`
+TOP_DIR=$(cd $(dirname $0); pwd)
 . $TOP_DIR/functions.sh
 
 cd $WORKDIR
@@ -13,7 +13,7 @@ git_clone_or_pull https://git.openstack.org/openstack-dev/devstack
 cp devstack-tools/config-ci/localrc gitrepo/devstack/localrc
 cd devstack
 ./tools/install_pip.sh
-sudo pip install virtualenv
+which virtualenv || sudo pip install virtualenv
 rm -rf /tmp/pip_build_ubuntu
 
 # Install dependent packages
