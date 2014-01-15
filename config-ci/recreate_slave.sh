@@ -54,5 +54,6 @@ host_exec virsh start $NAME
 
 timeout_exec ping -c 1 $NAME
 timeout_exec ssh -o StrictHostKeyChecking=no jenkins@$NAME hostname
+scp -o StrictHostKeyChecking=no .ssh/id_rsa jenkins@${NAME}:.ssh/id_dsa
 
 jenkins_cli online-node $NAME
