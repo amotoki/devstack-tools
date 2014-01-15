@@ -53,6 +53,6 @@ host_exec nice cp $BASEIMG $IMGDIR/${NAME}.img
 host_exec virsh start $NAME
 
 timeout_exec ping -c 1 $NAME
-timeout_exec ssh jenkins@$NAME hostname
+timeout_exec ssh -o StrictHostKeyChecking=no jenkins@$NAME hostname
 
 jenkins_cli online-node $NAME
