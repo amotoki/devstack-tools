@@ -57,3 +57,4 @@ timeout_exec ssh -o StrictHostKeyChecking=no jenkins@$NAME hostname
 scp -o StrictHostKeyChecking=no /var/lib/jenkins/.ssh/id_rsa jenkins@${NAME}:/var/lib/jenkins/.ssh/id_dsa
 
 jenkins_cli online-node $NAME
+jenkins_cli connect-node $NAME
