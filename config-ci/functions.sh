@@ -15,6 +15,6 @@ JAVA=/usr/bin/java
 CLIJAR=${WORKSPACE:-$(pwd)}/jenkins-cli.jar
 
 jenkins_cli() {
-  [ -f $CLIJAR ] || wget -O $CLIJAR $JENKINS_URL/jnlpJars/$(basename $CLIJAR)
+  [ -f $CLIJAR ] || wget --no-verbose -O $CLIJAR $JENKINS_URL/jnlpJars/$(basename $CLIJAR)
   $JAVA -jar $CLIJAR "$@"
 }
