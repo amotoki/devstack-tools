@@ -72,8 +72,8 @@ fi
 
 host_exec virsh list
 host_exec virsh destroy $NAME
-host_exec nice rm -f $IMGDIR/${NAME}.img
-host_exec nice cp $BASEIMG $IMGDIR/${NAME}.img
+host_exec ionice -c 2 -n 7 rm -f $IMGDIR/${NAME}.img
+host_exec ionice -c 2 -n 7 cp $BASEIMG $IMGDIR/${NAME}.img
 host_exec virsh start $NAME
 
 timeout_exec ping -c 1 $NAME
