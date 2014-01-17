@@ -12,14 +12,27 @@ export JENKINS_URL=http://ostack10.svp.cl.nec.co.jp/ci/
 
 JAVA=/usr/bin/java
 CLIJAR="jenkins-cli.jar"
-VM_HOST=orion
+#VM_HOST=orion
 HOST_USER=motoki
 
-BASEIMG=/home/motoki/easy_deploy/images/ubuntu1204-jenkins-raw.img
+BASEIMG1=/home/motoki/easy_deploy/images/ubuntu1204-jenkins-raw.img
+BASEIMG2=/home/motoki/kvm-img/jenkins_slave/ubuntu1204-jenkins-raw.img
 IMGDIR=/home/motoki/kvm-img/jenkins_slave
 
 jenkins_cli() {
   $JAVA -jar $CLIJAR "$@"
+}
+
+get_vm_host() {
+  local host=$1
+  cat <<EOF | grep $host | awk '{print $2}'
+ostack03: orion
+ostack04: orion
+osci01:   ipdc03
+osci02:   ipdc03
+osci03:   ipdc04
+osci04:   ipdc04
+EOF
 }
 
 host_exec() {
@@ -45,6 +58,17 @@ fi
 jenkins_cli get-node $NAME
 jenkins_cli offline-node $NAME -m "Recreating..."
 jenkins_cli disconnect-node $NAME
+
+VM_HOST=$(get_vm_host $NAME)
+if [ ! -n "$VM_HOST" ]; then
+  echo "[Error] No host found for VM $NAME."
+  exit 1
+fi
+if [ "$VM_HOST" = "orion" ]; then
+  BASEIMG=$BASEIMG1
+else
+  BASEIMG=$BASEIMG2
+fi
 
 host_exec virsh list
 host_exec virsh destroy $NAME
