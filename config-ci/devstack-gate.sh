@@ -17,6 +17,9 @@ echo "Running devstack"
 cd $DEST/devstack
 ./stack.sh
 
+# Wait for a while
+sleep 5
+
 # Ensure to run all tests
 set +o errexit
 
