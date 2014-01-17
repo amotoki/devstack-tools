@@ -98,7 +98,7 @@ cleanup_host() {
   local NEWLOGTARGET=$WORKSPACE/logs
   local BASE=/opt/stack
   sudo cp $BASE/logs/screen-* $NEWLOGTARGET/
-  sudo cp $BASE/logs/devstack.txt $NEWLOGTARGET/
+  sudo cp $BASE/logs/devstack.log $NEWLOGTARGET/
   sudo cp $BASE/devstack/localrc $WORKSPACE/logs/localrc.txt
 
   sudo iptables-save > $WORKSPACE/logs/iptables.txt
@@ -113,13 +113,13 @@ cleanup_host() {
       sudo python $WORKSPACE/devstack-tools/config-ci/subunit2html.py $WORKSPACE/subunit_log.txt $WORKSPACE/testr_results.html
       sudo gzip -9 $WORKSPACE/subunit_log.txt
       sudo gzip -9 $WORKSPACE/testr_results.html
-      sudo chown jenkins:jenkins $WORKSPACE/subunit_log.txt.gz $WORKSPACE/testr_results.html.gz
+      sudo chown jenkins:nogroup $WORKSPACE/subunit_log.txt.gz $WORKSPACE/testr_results.html.gz
       sudo chmod a+r $WORKSPACE/subunit_log.txt.gz $WORKSPACE/testr_results.html.gz
   elif [ -f $BASE/tempest/.testrepository/tmp* ]; then
       # If testr timed out, collect temp file from testr
       sudo cp $BASE/tempest/.testrepository/tmp* $WORKSPACE/subunit_log.txt
       sudo gzip -9 $WORKSPACE/subunit_log.txt
-      sudo chown jenkins:jenkins $WORKSPACE/subunit_log.txt.gz
+      sudo chown jenkins:nogroup $WORKSPACE/subunit_log.txt.gz
       sudo chmod a+r $WORKSPACE/subunit_log.txt.gz
   fi
 
@@ -128,7 +128,7 @@ cleanup_host() {
   fi
 
   # Make sure jenkins can read all the logs
-  sudo chown -R jenkins:jenkins $WORKSPACE/logs/
+  sudo chown -R jenkins:nogroup $WORKSPACE/logs/
   sudo chmod a+r $WORKSPACE/logs/
 
   rename 's/\.log$/.txt/' $WORKSPACE/logs/*
@@ -146,9 +146,9 @@ cleanup_host() {
   find $WORKSPACE/logs -iname '*.dat' -execdir gzip -9 {} \+
 
   # Save the tempest nosetests results
-  sudo cp $BASE/tempest/nosetests*.xml $WORKSPACE/
-  sudo chown jenkins:jenkins $WORKSPACE/nosetests*.xml
-  sudo chmod a+r $WORKSPACE/nosetests*.xml
+  #sudo cp $BASE/tempest/nosetests*.xml $WORKSPACE/
+  #sudo chown jenkins:jenkins $WORKSPACE/nosetests*.xml
+  #sudo chmod a+r $WORKSPACE/nosetests*.xml
 
   ls -lR
 
