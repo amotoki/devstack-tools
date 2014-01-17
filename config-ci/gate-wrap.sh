@@ -76,8 +76,4 @@ GATEPID=`cat $WORKSPACE/gate.pid`
     sudo kill -s 9 -${GATEPID}
 fi
 
-. $WORKSPACE/devstack-tools/config-ci/functions.sh
-jenkins_cli offline-node $NODE_NAME -m "Recreating..."
-sleep 1
-
 exit $RETVAL
