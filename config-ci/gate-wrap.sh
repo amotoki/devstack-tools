@@ -36,8 +36,8 @@ prepare_pipcache() {
   PIPTAR=pip.cache.tgz
   http_proxy= wget --no-verbose -O $PIPTAR $CACHE_URL/$PIPTAR
   tar xzf $PIPTAR
-  sudo mkdir -p /var/cache/pip
-  sudo mv pip.cache/* /var/cache/pip
+  sudo rm -rf /var/cache/pip
+  sudo mv pip.cache /var/cache/pip
   sudo chown -R root:root /var/cache/pip
   rm -rf pip.cache
   rm -f $PIPTAR
@@ -56,10 +56,9 @@ fetch_target_patchset() {
 
 setup_devstack() {
   cp $WORKSPACE/devstack-tools/config-ci/localrc $DEST/devstack/localrc
-  cat $DEST/devstack/localrc
 }
 
-setup_host() {
+setup_syslog() {
   # Start with a fresh syslog
   sudo stop rsyslog
   sudo mv /var/log/syslog /var/log/syslog-pre-devstack
@@ -75,12 +74,19 @@ setup_host() {
   sudo start rsyslog
 }
 
+setup_host() {
+  setup_syslog
+  prepare_gitrepo
+  prepare_pipcache
+  fetch_target_patchset
+  setup_devstack
+}
+
 cleanup_host() {
   # Enabled detailed logging, since output of this function is redirected
   #set -o xtrace
 
   cd $WORKSPACE
-  ls -lR
 
   # Sleep to give services a chance to flush their log buffers.
   sleep 2
@@ -150,19 +156,11 @@ cleanup_host() {
   #sudo chown jenkins:jenkins $WORKSPACE/nosetests*.xml
   #sudo chmod a+r $WORKSPACE/nosetests*.xml
 
-  ls -lR
-
   # Disable detailed logging as we return to the main script
   #set +o xtrace
 }
 
 setup_host
-if [ ! -n "$SKIP" ]; then
-  prepare_gitrepo
-  prepare_pipcache
-fi
-fetch_target_patchset
-setup_devstack
 
 if ! function_exists "gate_hook"; then
   # the command we use to run the gate
