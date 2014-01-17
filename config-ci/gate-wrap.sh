@@ -4,6 +4,9 @@ CACHE_URL=http://10.56.45.207/openstack
 export PROXY=http://proxygate2.nic.nec.co.jp:8080
 export DEST=/opt/stack
 
+LOG_HOST=motoki@orion
+LOG_PATH=tmp/jenkins-log
+
 # Useful when runninng this script manually
 WORKSPACE=${WORKSPACE:-$(pwd)}
 
@@ -160,6 +163,12 @@ cleanup_host() {
   #set +o xtrace
 }
 
+send_logs() {
+  cd $WORKSPACE
+  scp -r logs $LOG_HOST:$LOG_PATH/$JOB_NAME/$BUILD_NUMBER
+  scp subunit_log.txt.gz testr_results.html.gz $LOG_HOST:$LOG_PATH/$JOB_NAME/$BUILD_NUMBER
+}
+
 setup_host
 
 if ! function_exists "gate_hook"; then
@@ -181,5 +190,6 @@ GATEPID=`cat $WORKSPACE/gate.pid`
 fi
 
 cleanup_host
+send_logs
 
 exit $RETVAL
