@@ -36,8 +36,14 @@ if [ "$DEVSTACK_GATE_TEMPEST_SCENARIO" -eq "1" ]; then
   res=$?
 fi
 if [ "$DEVSTACK_GATE_NETWORK_API" -eq "1" ]; then
-  echo "Running API tests"
+  echo "Running network API tests"
   bash tools/pretty_tox_serial.sh 'tempest.api.network {posargs}'
+  [[ $? -eq 0 && $res -eq 0 ]]
+  res=$?
+fi
+if [ "$DEVSTACK_GATE_TEMPEST_API" -eq "1" ]; then
+  echo "Running API tests"
+  bash tools/pretty_tox_serial.sh 'tempest.api {posargs}'
   [[ $? -eq 0 && $res -eq 0 ]]
   res=$?
 fi
