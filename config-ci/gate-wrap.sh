@@ -59,6 +59,7 @@ fetch_target_patchset() {
 
 setup_devstack() {
   cp $WORKSPACE/devstack-tools/config-ci/localrc $DEST/devstack/localrc
+  (cd $DEST/devstack && patch -p1 < $WORKSPACE/devstack-tool/config-ci/devstack.patch)
 }
 
 setup_syslog() {
@@ -114,6 +115,9 @@ cleanup_host() {
   df -h> $WORKSPACE/logs/df.txt
 
   pip freeze > $WORKSPACE/logs/pip-freeze.txt
+
+  sudo cp -a $BASE/data/trema/trema/log $WORKSPACE/logs/trema
+  sudo cp -a /var/log/openvswitch $WORKSPACE/logs/openvswitch
 
   # Process testr artifacts.
   if [ -f $BASE/tempest/.testrepository/0 ]; then

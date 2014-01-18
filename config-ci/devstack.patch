@@ -1,0 +1,13 @@
+diff --git a/lib/neutron_plugins/nec b/lib/neutron_plugins/nec
+index d8d8b7c..2aacd42 100644
+--- a/lib/neutron_plugins/nec
++++ b/lib/neutron_plugins/nec
+@@ -59,6 +59,8 @@ function _quantum_plugin_setup_bridge() {
+     if [[ "$SKIP_OVS_BRIDGE_SETUP" = "True" ]]; then
+         return
+     fi
++    # Increase debug level
++    sudo ovs-appctl vlog/set ANY:file:dbg
+     # Set up integration bridge
+     _neutron_ovs_base_setup_bridge $OVS_BRIDGE
+     # Generate datapath ID from HOST_IP
