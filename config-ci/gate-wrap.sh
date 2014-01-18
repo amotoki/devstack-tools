@@ -18,6 +18,10 @@ mkdir -p logs
 # to run before being aborted (default 60).
 export DEVSTACK_GATE_TIMEOUT=${DEVSTACK_GATE_TIMEOUT:-60}
 
+function function_exists {
+    type $1 2>/dev/null | grep -q 'is a function'
+}
+
 prepare_gitrepo() {
   GITTAR=gitrepo.tgz
   sudo rm -rf $DEST
@@ -59,7 +63,7 @@ fetch_target_patchset() {
 
 setup_devstack() {
   cp $WORKSPACE/devstack-tools/config-ci/localrc $DEST/devstack/localrc
-  (cd $DEST/devstack && patch -p1 < $WORKSPACE/devstack-tool/config-ci/devstack.patch)
+  (cd $DEST/devstack && patch -p1 < $WORKSPACE/devstack-tools/config-ci/devstack.patch)
 }
 
 setup_syslog() {
