@@ -165,8 +165,8 @@ cleanup_host() {
 
 send_logs() {
   cd $WORKSPACE
-  scp -r logs $LOG_HOST:$LOG_PATH/$JOB_NAME/$BUILD_NUMBER
-  scp subunit_log.txt.gz testr_results.html.gz $LOG_HOST:$LOG_PATH/$JOB_NAME/$BUILD_NUMBER
+  scp -o StrictHostKeyChecking=no -r logs $LOG_HOST:$LOG_PATH/$JOB_NAME/$BUILD_NUMBER
+  scp -o StrictHostKeyChecking=no subunit_log.txt.gz testr_results.html.gz $LOG_HOST:$LOG_PATH/$JOB_NAME/$BUILD_NUMBER
 }
 
 setup_host

@@ -36,7 +36,7 @@ EOF
 }
 
 host_exec() {
-  ssh ${HOST_USER}@$VM_HOST "$@"
+  ssh -o StrictHostKeyChecking=no ${HOST_USER}@$VM_HOST "$@"
 }
 
 timeout_exec() {
