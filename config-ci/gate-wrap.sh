@@ -198,6 +198,6 @@ GATEPID=`cat $WORKSPACE/gate.pid`
 fi
 
 cleanup_host
-send_logs
+#send_logs
 
 exit $RETVAL
