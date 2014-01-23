@@ -50,7 +50,7 @@ if [ "$DEVSTACK_GATE_NETWORK_API" -eq "1" ]; then
 fi
 if [ "$DEVSTACK_GATE_TEMPEST_API" -eq "1" ]; then
   echo "Running API tests"
-  bash tools/pretty_tox_serial.sh 'tempest.api {posargs}'
+  bash tools/pretty_tox_serial.sh '(?!.*\[.*\bslow\b.*\])^tempest\.api.*\bsmoke\b {posargs}'
   [[ $? -eq 0 && $res -eq 0 ]]
   res=$?
 fi
