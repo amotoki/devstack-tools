@@ -156,7 +156,7 @@ cleanup_host() {
      $WORKSPACE/logs/rabbitmq/startup_log.txt
 
   # Remove duplicate logs
-  rm $WORKSPACE/logs/*.*.txt
+  #rm $WORKSPACE/logs/*.*.txt
 
   # Compress all text logs
   find $WORKSPACE/logs -iname '*.txt' -execdir gzip -9 {} \+
