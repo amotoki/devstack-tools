@@ -38,7 +38,7 @@ if [ "$DEVSTACK_GATE_SMOKE_SERIAL" -eq "1" ]; then
 fi
 if [ "$DEVSTACK_GATE_TEMPEST_SCENARIO" -eq "1" ]; then
   echo "Running scenario tests"
-  bash tools/pretty_tox_serial.sh 'tempest.scenario {posargs}'
+  bash tools/pretty_tox_serial.sh '(?!.*\[.*\bslow\b.*\])^tempest\.scenario {posargs}'
   [[ $? -eq 0 && $res -eq 0 ]]
   res=$?
 fi
