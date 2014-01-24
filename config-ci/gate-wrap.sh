@@ -171,12 +171,6 @@ cleanup_host() {
   #set +o xtrace
 }
 
-send_logs() {
-  cd $WORKSPACE
-  scp -o StrictHostKeyChecking=no -r logs $LOG_HOST:$LOG_PATH/$JOB_NAME/$BUILD_NUMBER
-  scp -o StrictHostKeyChecking=no subunit_log.txt.gz testr_results.html.gz $LOG_HOST:$LOG_PATH/$JOB_NAME/$BUILD_NUMBER
-}
-
 setup_host
 
 if ! function_exists "gate_hook"; then
@@ -198,6 +192,5 @@ GATEPID=`cat $WORKSPACE/gate.pid`
 fi
 
 cleanup_host
-#send_logs
 
 exit $RETVAL
