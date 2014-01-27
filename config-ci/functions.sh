@@ -131,7 +131,8 @@ cleanup_host() {
   pip freeze > $WORKSPACE/logs/system/pip-freeze.txt
 
   sudo cp -a $BASE/data/trema/trema/log $WORKSPACE/logs/trema
-  sudo cp /var/log/apache2/sliceable_switch_*.log $WORKSPACE/logs/trema
+  sudo cp /var/log/apache2/sliceable_switch_access.log $WORKSPACE/logs/trema
+  sudo cp /var/log/apache2/sliceable_switch_error.log $WORKSPACE/logs/trema
   sudo cp -a /var/log/openvswitch $WORKSPACE/logs/openvswitch
 
   # Process testr artifacts.
