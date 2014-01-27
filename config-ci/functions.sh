@@ -101,28 +101,38 @@ cleanup_host() {
   # Sleep to give services a chance to flush their log buffers.
   sleep 2
 
-  sudo cp /var/log/syslog $WORKSPACE/logs/syslog.txt
-  sudo cp /var/log/kern.log $WORKSPACE/logs/kern_log.txt
+  local NEWLOGTARGET=$WORKSPACE/logs
+  mkdir -p $NEWLOGTARGET/system
+  sudo cp /var/log/syslog $WORKSPACE/logs/system/syslog.txt
+  sudo cp /var/log/kern.log $WORKSPACE/logs/system/kern_log.txt
   sudo cp /var/log/apache2/horizon_error.log $WORKSPACE/logs/horizon_error.log
   mkdir $WORKSPACE/logs/rabbitmq/
   sudo cp /var/log/rabbitmq/* $WORKSPACE/logs/rabbitmq/
-  mkdir $WORKSPACE/logs/sudoers.d/
+  mkdir -p $WORKSPACE/logs/sudo/sudoers.d/
+  sudo cp /etc/sudoers.d/* $WORKSPACE/logs/sudo/sudoers.d/
+  sudo cp /etc/sudoers $WORKSPACE/logs/sudo/sudoers.txt
 
-  sudo cp /etc/sudoers.d/* $WORKSPACE/logs/sudoers.d/
-  sudo cp /etc/sudoers $WORKSPACE/logs/sudoers.txt
-
-  local NEWLOGTARGET=$WORKSPACE/logs
   local BASE=/opt/stack
-  sudo cp $BASE/logs/screen-* $NEWLOGTARGET/
+  mkdir -p $NEWLOGTARGET/screen
+  #sudo cp $BASE/logs/screen-* $NEWLOGTARGET/screen
+  for f in $BASE/logs/screen-*.*.log; do
+      # Guess symlink filename
+      lf=$(echo $f | cut -d . -f 1,3)
+      # Sometimes symlink is not updated, so if symlink does not exist
+      # (or refers to another file), copy the original file.
+      sudo cmp $f $lf >/dev/null 2>&1 || lf=$f
+      sudo cp $lf $NEWLOGTARGET/screen
+  done
   sudo cp $BASE/logs/devstack.log $NEWLOGTARGET/
   sudo cp $BASE/devstack/localrc $WORKSPACE/logs/localrc.txt
 
-  sudo iptables-save > $WORKSPACE/logs/iptables.txt
-  df -h> $WORKSPACE/logs/df.txt
+  sudo iptables-save > $WORKSPACE/logs/system/iptables.txt
+  df -h> $WORKSPACE/logs/system/df.txt
 
-  pip freeze > $WORKSPACE/logs/pip-freeze.txt
+  pip freeze > $WORKSPACE/logs/system/pip-freeze.txt
 
   sudo cp -a $BASE/data/trema/trema/log $WORKSPACE/logs/trema
+  sudo cp /var/log/apache2/sliceable_switch_*.log $WORKSPACE/logs/trema
   sudo cp -a /var/log/openvswitch $WORKSPACE/logs/openvswitch
 
   # Process testr artifacts.
