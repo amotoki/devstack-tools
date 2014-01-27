@@ -56,7 +56,7 @@ fetch_target_patchset() {
   if [ -z "$GERRIT_PROJECT" ]; then
     return
   fi
-  REPO_URL=https://review.openstack.org
+  REPO_URL=${REPO_URL:-https://review.openstack.org}
   #GERRIT_PROJECT=openstack/neutron
   #GERRIT_REFSPEC=refs/changes/01/66501/1
   cd $DEST/$(basename $GERRIT_PROJECT)
