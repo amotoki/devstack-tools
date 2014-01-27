@@ -113,15 +113,14 @@ cleanup_host() {
   sudo cp /etc/sudoers $WORKSPACE/logs/sudo/sudoers.txt
 
   local BASE=/opt/stack
-  mkdir -p $NEWLOGTARGET/screen
-  #sudo cp $BASE/logs/screen-* $NEWLOGTARGET/screen
+  mkdir -p $NEWLOGTARGET/devstack
   for f in $BASE/logs/screen-*.*.log; do
       # Guess symlink filename
       lf=$(echo $f | cut -d . -f 1,3)
       # Sometimes symlink is not updated, so if symlink does not exist
       # (or refers to another file), copy the original file.
       sudo cmp $f $lf >/dev/null 2>&1 || lf=$f
-      sudo cp $lf $NEWLOGTARGET/screen
+      sudo cp $lf $NEWLOGTARGET/devstack
   done
   sudo cp $BASE/logs/devstack.log $NEWLOGTARGET/
   sudo cp $BASE/devstack/localrc $WORKSPACE/logs/localrc.txt
@@ -161,14 +160,16 @@ cleanup_host() {
   sudo chmod a+r $WORKSPACE/logs/
 
   rename 's/\.log$/.txt/' $WORKSPACE/logs/*
-  rename 's/(.*)/$1.txt/' $WORKSPACE/logs/sudoers.d/*
+  rename 's/\.log$/.txt/' $WORKSPACE/logs/system/*
+  rename 's/\.log$/.txt/' $WORKSPACE/logs/devstack/*
+  rename 's/(.*)/$1.txt/' $WORKSPACE/logs/sudo/*
+  rename 's/(.*)/$1.txt/' $WORKSPACE/logs/sudo/sudoers.d/*
   rename 's/\.log$/.txt/' $WORKSPACE/logs/rabbitmq/*
+  rename 's/\.log$/.txt/' $WORKSPACE/logs/openvswitch/*
+  rename 's/\.log$/.txt/' $WORKSPACE/logs/trema/*
 
   mv $WORKSPACE/logs/rabbitmq/startup_log \
      $WORKSPACE/logs/rabbitmq/startup_log.txt
-
-  # Remove duplicate logs
-  #rm $WORKSPACE/logs/*.*.txt
 
   # Compress all text logs
   find $WORKSPACE/logs -iname '*.txt' -execdir gzip -9 {} \+
