@@ -20,7 +20,7 @@ git_clone_or_pull() {
     fi
 }
 
-function function_exists {
+function_exists() {
     type $1 2>/dev/null | grep -q 'is a function'
 }
 
