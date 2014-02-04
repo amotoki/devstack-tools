@@ -126,6 +126,7 @@ cleanup_host() {
       sudo cmp $f $lf >/dev/null 2>&1 || lf=$f
       sudo cp $lf $NEWLOGTARGET/devstack
   done
+  grep -v -E "(Arguments dropped when creating context:|unpacked context:)" $NEWLOGTARGET/devstack/screen-q-svc*.log > $NEWLOGTARGET/devstack/q-svc-filtered.log
   sudo cp $BASE/logs/devstack.log $NEWLOGTARGET/
   sudo cp $BASE/devstack/localrc $WORKSPACE/logs/localrc.txt
 
