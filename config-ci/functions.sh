@@ -64,7 +64,11 @@ fetch_target_patchset() {
 }
 
 setup_devstack() {
-  cp $WORKSPACE/devstack-tools/config-ci/localrc $DEST/devstack/localrc
+  local localrc=$WORKSPACE/devstack-tools/config-ci/localrc
+  if [ -f $localrc.$Q_PLUGIN ]; then
+      localrc=$localrc.$Q_PLUGIN
+  fi
+  cp $localrc $DEST/devstack/localrc
   (cd $DEST/devstack && patch -p1 < $WORKSPACE/devstack-tools/config-ci/devstack.patch)
 }
 
