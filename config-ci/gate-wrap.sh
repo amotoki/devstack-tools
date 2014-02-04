@@ -19,6 +19,7 @@ mkdir -p logs
 export DEVSTACK_GATE_TIMEOUT=${DEVSTACK_GATE_TIMEOUT:-60}
 
 setup_host &> $WORKSPACE/logs/devstack-gate-setup-host.txt
+tail -10 $WORKSPACE/logs/devstack-gate-setup-host.txt
 
 if ! function_exists "gate_hook"; then
   # the command we use to run the gate
