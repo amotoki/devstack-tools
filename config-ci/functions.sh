@@ -53,14 +53,15 @@ prepare_pipcache() {
 }
 
 fetch_target_patchset() {
-  if [ -z "$GERRIT_PROJECT" ]; then
+  REPO_URL=${REPO_URL:-https://review.openstack.org}
+  local repourl=${ZUUL_URL:-$REPO_URL}
+  local project=${ZUUL_PROJECT:-$GERRIT_PROJECT}
+  local refspec=${ZUUL_REF:-$GERRIT_REFSPEC}
+  if [ -z "$project" ]; then
     return
   fi
-  REPO_URL=${REPO_URL:-https://review.openstack.org}
-  #GERRIT_PROJECT=openstack/neutron
-  #GERRIT_REFSPEC=refs/changes/01/66501/1
-  cd $DEST/$(basename $GERRIT_PROJECT)
-  https_proxy=$PROXY timeout -s 9 ${GIT_TIMEOUT}m git fetch $REPO_URL/$GERRIT_PROJECT $GERRIT_REFSPEC && git checkout FETCH_HEAD
+  cd $DEST/$(basename $project)
+  https_proxy=$PROXY timeout -s 9 ${GIT_TIMEOUT}m git fetch $repourl/$project $refspec && git checkout FETCH_HEAD
 }
 
 setup_devstack() {
