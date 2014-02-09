@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# By default devstack removes all logs,
+# so COMPRESS_LOGS defaults to False.
+#COMPRESS_LOGS=True
+
 DEVSTACK_DIR=$HOME/devstack
 source $DEVSTACK_DIR/functions
 source $DEVSTACK_DIR/stackrc
@@ -142,12 +146,14 @@ ip link
 echo '---------'
 ip netns
 
-echo "Compressing devstack logs..."
-SYMLINKFILES=/tmp/symlinked-log.$$
-find /opt/stack/logs -type l | xargs ls -l | sed -e 's/^.* -> //' > $SYMLINKFILES
-TARGETLOGS=$(find /opt/stack/logs -type f | grep -v -f $SYMLINKFILES | grep -v '.gz$')
-if [ -n "$TARGETLOGS" ]; then
-    gzip --verbose $TARGETLOGS
+if [ "$COMPRESS_LOGS" = "True" ]; then
+  echo "Compressing devstack logs..."
+  SYMLINKFILES=/tmp/symlinked-log.$$
+  find /opt/stack/logs -type l | xargs ls -l | sed -e 's/^.* -> //' > $SYMLINKFILES
+  TARGETLOGS=$(find /opt/stack/logs -type f | grep -v -f $SYMLINKFILES | grep -v '.gz$')
+  if [ -n "$TARGETLOGS" ]; then
+      gzip --verbose $TARGETLOGS
+  fi
 fi
 
 echo
