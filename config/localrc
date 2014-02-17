@@ -4,7 +4,7 @@
 # Common congigurations
 #-----------------------------
 
-INTERNAL_MODE=True
+INTERNAL_MODE=False
 if [ $INTERNAL_MODE = True ]; then
     CFGDIR=$HOME/tool/config
     source $CFGDIR/01-proxy
