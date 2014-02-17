@@ -4,9 +4,9 @@
 # Common congigurations
 #-----------------------------
 
+CFGDIR=$HOME/tool/config
 INTERNAL_MODE=False
 if [ $INTERNAL_MODE = True ]; then
-    CFGDIR=$HOME/tool/config
     source $CFGDIR/01-proxy
     source $CFGDIR/02-repos
 fi
