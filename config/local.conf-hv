@@ -1,4 +1,8 @@
-# -*- mode: bash -*-
+[[local|localrc]]
+#OFFLINE=True
+RECLONE=True
+
+CC_HOST=10.56.51.252
 
 #-----------------------------
 # Common congigurations
@@ -11,7 +15,6 @@ source $CFGDIR/10-local
 
 USE_NEUTRON=True
 
-CC_HOST=10.56.51.252
 MYSQL_HOST=${CC_HOST}
 SERVICE_HOST=${CC_HOST}
 RABBIT_HOST=${CC_HOST}
@@ -35,17 +38,18 @@ if [[ "$USE_NEUTRON" == "True" ]]; then
   enable_service q-agt
   #LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
   #NOVA_VIF_DRIVER=nova.virt.libvirt.vif.LibvirtOpenVswitchDriver
+  Q_PLUGIN=ml2
   #Q_PLUGIN=openvswitch
   #Q_PLUGIN=linuxbridge
   #Q_USE_NAMESPACE=False
   #Q_USE_SECGROUP=True
   #Q_USE_DEBUG_COMMAND=True
 
-  Q_PLUGIN=nec
-  GRE_REMOTE_IPS=10.56.51.252:10.56.51.210:10.56.51.153
+  #Q_PLUGIN=nec
+  #GRE_REMOTE_IPS=10.56.51.252:10.56.51.210:10.56.51.153
   #GRE_LOCAL_IP=10.56.51.252
   #OVS_INTERFACE=eth1
-  OFC_OFP_HOST=${CC_HOST}
+  #OFC_OFP_HOST=${CC_HOST}
 #-----------------------------
 # Nova Network
 #-----------------------------
@@ -64,13 +68,10 @@ LOGDIR=$DEST/logs
 SCREEN_LOGDIR=$LOGDIR
 SCREEN_HARDSTATUS="%{= rw} %H %{= wk} %L=%-w%{= bw}%30L> %n%f %t*%{= wk}%+Lw%-17< %-=%{= gk} %y/%m    /%d %c"
 LOGFILE=$LOGDIR/devstack.log
-LOG_COLOR=False
+#LOG_COLOR=False
 
 ADMIN_PASSWORD=pass
 MYSQL_PASSWORD=stackdb
 RABBIT_PASSWORD=stackqueue
 SERVICE_PASSWORD=$ADMIN_PASSWORD
 SERVICE_TOKEN=xyzpdqlazydog
-
-#OFFLINE=True
-#RECLONE=True
