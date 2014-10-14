@@ -8,10 +8,6 @@ CC_HOST=10.56.51.252
 # Common congigurations
 #-----------------------------
 
-source $TOP_DIR/01-proxy
-source $TOP_DIR/02-repos
-source $TOP_DIR/10-local
-
 USE_NEUTRON=True
 
 MYSQL_HOST=${CC_HOST}
